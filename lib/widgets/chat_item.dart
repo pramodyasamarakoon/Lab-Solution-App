@@ -1,84 +1,46 @@
 import 'package:flutter/material.dart';
+import '../models/patient.dart';
 
 class ChatItem extends StatelessWidget {
-  final String name;
-  final int age;
-  final String gender;
-  final String time;
-  final int tests;
-  final String image;
+  final Patient patient;
 
-  const ChatItem({
-    super.key,
-    required this.name,
-    required this.age,
-    required this.gender,
-    required this.time,
-    required this.tests,
-    required this.image,
-  });
+  const ChatItem({super.key, required this.patient});
 
   @override
   Widget build(BuildContext context) {
+    print("ChatItem for: ${patient.name}"); // Add this to debug
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          // Patient's profile image
-          CircleAvatar(
-            backgroundImage: AssetImage(image),
-            radius: 30,
-          ),
-          const SizedBox(width: 12),
-          // Patient details
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Age: $age | Gender: $gender',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
+      padding: const EdgeInsets.only(top: 2.0),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundImage: AssetImage(patient.image),
+        ),
+        title: Text(
+          patient.name,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(
+          '${patient.age} years, ${patient.gender}',
+          style: const TextStyle(fontSize: 14, color: Colors.grey),
+        ),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              patient.time,
+              style: const TextStyle(fontSize: 12, color: Colors.green),
             ),
-          ),
-          // Time and lab tests count
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                time,
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
+            const SizedBox(height: 4),
+            CircleAvatar(
+              backgroundColor: Colors.green,
+              radius: 14,
+              child: Text(
+                patient.labTests.toString(),
+                style: const TextStyle(color: Colors.white, fontSize: 12),
               ),
-              const SizedBox(height: 4),
-              // Green badge for tests
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: const BoxDecoration(
-                  color: Colors.green,
-                  shape: BoxShape.circle,
-                ),
-                child: Text(
-                  tests.toString(),
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

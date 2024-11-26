@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:first_flutter_app/models/patient.dart'; // Import the Patient model
 import 'package:first_flutter_app/services/patient_service.dart'; // Import the PatientService
 import '../widgets/filter_button.dart';
+import '../widgets/chat_item.dart';
 
 class MLTHomePage extends StatefulWidget {
   const MLTHomePage({super.key});
@@ -14,6 +15,22 @@ class MLTHomePage extends StatefulWidget {
 
 class _MLTHomePageState extends State<MLTHomePage> {
   String activeButton = 'All'; // Default active button
+  List<Patient> patientList = []; // To hold the list of patients
+
+  @override
+  void initState() {
+    super.initState();
+    print("Calling loadPatientData...");
+    loadPatientData();
+  }
+
+  Future<void> loadPatientData() async {
+    print('Loading patient data...');
+    List<Patient> patients = await PatientService.loadPatients();
+    setState(() {
+      patientList = patients;
+    });
+  }
 
   void _onFilterButtonPressed(String buttonText) {
     setState(() {
@@ -86,60 +103,23 @@ class _MLTHomePageState extends State<MLTHomePage> {
             ),
           ),
           // Patient List
+          // Patient list (chat list) under filter buttons
           Expanded(
-            child: FutureBuilder<List<Patient>>(
-              future: PatientService.loadPatients(), // Load patient data
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                }
-
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No patients found.'));
-                }
-
-                // List of patients loaded successfully
-                List<Patient> patients = snapshot.data!;
-
-                return ListView.builder(
-                  itemCount: patients.length,
-                  itemBuilder: (context, index) {
-                    Patient patient = patients[index];
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: patient.image.isNotEmpty
-                            ? AssetImage(
-                                patient.image) // Use the image from the JSON
-                            : AssetImage(
-                                'assets/images/default.jpg'), // Placeholder image
-                      ),
-                      title: Text(patient.name),
-                      subtitle: Row(
-                        children: [
-                          Text('${patient.age} years, ${patient.gender}'),
-                          const SizedBox(width: 8),
-                          Text(patient.time),
-                        ],
-                      ),
-                      trailing: CircleAvatar(
-                        backgroundColor: Colors.green,
-                        radius: 14,
-                        child: Text(
-                          patient.labTests.toString(),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
+            child: RefreshIndicator(
+              onRefresh: loadPatientData, // Trigger refresh on pull down
+              child: patientList.isEmpty
+                  ? const Center(
+                      child:
+                          CircularProgressIndicator()) // Show loading indicator
+                  : ListView.builder(
+                      itemCount: patientList.length,
+                      itemBuilder: (context, index) {
+                        Patient patient = patientList[index];
+                        return ChatItem(patient: patient);
+                      },
+                    ),
             ),
-          ),
+          )
         ],
       ),
     );
