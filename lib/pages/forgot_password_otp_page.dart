@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:async'; // Import for Timer
 import '../widgets/app_logo.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/otp_input.dart';
-import 'sign_in_page.dart';
+import '../widgets/navigation_link.dart';
+import 'reset_password_page.dart';
 
 class ForgotPasswordOTPPage extends StatefulWidget {
   const ForgotPasswordOTPPage({super.key});
@@ -18,6 +21,11 @@ class _ForgotPasswordOTPPageState extends State<ForgotPasswordOTPPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool isLoading = false;
+  int remainingTime = 180; // 3 minutes (in seconds)
+  String timerText = 'OTP expires in 3:00'; // Initialize directly
+
+  // Timer variable to manage the countdown
+  Timer? _timer;
 
   void handleSubmit() async {
     if (_formKey.currentState!.validate()) {
@@ -35,10 +43,10 @@ class _ForgotPasswordOTPPageState extends State<ForgotPasswordOTPPage> {
         isLoading = false;
       });
 
-      // Navigate to Sign In Page
+      // Navigate to Reset Password Page
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const SignInPage()),
+        MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
       );
     } else {
       print('Validation failed');
@@ -46,13 +54,41 @@ class _ForgotPasswordOTPPageState extends State<ForgotPasswordOTPPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _startTimer(); // Start the timer as soon as the page is loaded
+  }
+
+  // Method to start the timer
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (remainingTime > 0) {
+        setState(() {
+          remainingTime--;
+          timerText = formatTime(remainingTime); // Update the timer text
+        });
+      } else {
+        _timer?.cancel(); // Stop the timer when it reaches 0
+      }
+    });
+  }
+
+  String formatTime(int seconds) {
+    int minutes = seconds ~/ 60;
+    int secs = seconds % 60;
+    return 'OTP expires in $minutes:${secs.toString().padLeft(2, '0')}';
+  }
+
+  @override
   void dispose() {
+    // Dispose of controllers and focus nodes
     for (var controller in otpControllers) {
       controller.dispose();
     }
     for (var focusNode in focusNodes) {
       focusNode.dispose();
     }
+    _timer?.cancel(); // Cancel the timer when the page is disposed
     super.dispose();
   }
 
@@ -117,6 +153,24 @@ class _ForgotPasswordOTPPageState extends State<ForgotPasswordOTPPage> {
                   text: 'Submit',
                   isLoading: isLoading,
                   onPressed: isLoading ? null : handleSubmit,
+                ),
+                const SizedBox(height: 24),
+
+                // Navigation Link for Resend Code
+                NavigationLink(
+                  normalText: "Didn't get the code? ",
+                  navigationText: "Resend Code",
+                  onTap: () {
+                    // Simulate Resend Code
+                    print("Resend Code clicked.");
+                  },
+                ),
+                const SizedBox(height: 24),
+
+                // Timer Text
+                Text(
+                  timerText,
+                  style: const TextStyle(fontSize: 14, color: Colors.black),
                 ),
               ],
             ),

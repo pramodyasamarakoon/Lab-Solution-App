@@ -8,6 +8,7 @@ import '../utils/validators.dart';
 import 'sign_up_page.dart';
 import 'mlt_sign_in_page.dart';
 import 'forgot_password_page.dart';
+import 'MLT_home_page.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -41,8 +42,11 @@ class _SignInPageState extends State<SignInPage> {
         isLoading = false; // Hide the loading spinner after processing
       });
 
-      // Navigate to the next page or show a success message
-      // Navigator.push(...);
+      // Navigate to the Home page
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MLTHomePage()),
+      );
     } else {
       print('Validation failed');
     }

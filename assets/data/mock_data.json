@@ -1,0 +1,26 @@
+[
+  {
+    "name": "John Doe",
+    "age": 32,
+    "gender": "Male",
+    "time": "10:30 AM",
+    "labTests": 3,
+    "image": "assets/images/patient1.jpg"
+  },
+  {
+    "name": "Jane Smith",
+    "age": 28,
+    "gender": "Female",
+    "time": "11:00 AM",
+    "labTests": 1,
+    "image": "assets/images/patient2.jpg"
+  },
+  {
+    "name": "Samuel Lee",
+    "age": 45,
+    "gender": "Male",
+    "time": "11:30 AM",
+    "labTests": 2,
+    "image": "assets/images/patient3.jpg"
+  }
+]

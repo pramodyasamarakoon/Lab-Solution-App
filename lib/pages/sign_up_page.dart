@@ -8,43 +8,61 @@ import '../utils/validators.dart';
 import 'sign_in_page.dart';
 import 'google_sign_up_page.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  _SignUpPageState createState() => _SignUpPageState();
+}
 
-    // Controllers for the input fields
-    final TextEditingController fullNameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController mobileController = TextEditingController();
-    final TextEditingController nicController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController confirmPasswordController =
-        TextEditingController();
+class _SignUpPageState extends State<SignUpPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-    // Handle sign up logic
-    void handleSignUp() {
-      if (_formKey.currentState!.validate()) {
-        // Proceed with sign-up logic if validation is successful
-        final fullName = fullNameController.text.trim();
-        final email = emailController.text.trim();
-        final mobile = mobileController.text.trim();
-        final nic = nicController.text.trim();
-        final password = passwordController.text.trim();
+  // Controllers for the input fields
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
+  final TextEditingController nicController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
-        print('Sign Up with:');
-        print('Full Name: $fullName');
-        print('Email: $email');
-        print('Mobile: $mobile');
-        print('NIC: $nic');
-        print('Password: $password');
-      } else {
-        print('Validation failed');
-      }
+  bool isLoading = false; // To handle loading state
+
+  // Handle sign up logic
+  Future<void> handleSignUp() async {
+    if (_formKey.currentState!.validate()) {
+      // Proceed with sign-up logic if validation is successful
+      final fullName = fullNameController.text.trim();
+      final email = emailController.text.trim();
+      final mobile = mobileController.text.trim();
+      final nic = nicController.text.trim();
+      final password = passwordController.text.trim();
+
+      setState(() {
+        isLoading = true; // Show the loading spinner on the button
+      });
+
+      // Simulate an API call or async operation
+      await Future.delayed(const Duration(seconds: 2));
+
+      setState(() {
+        isLoading = false; // Hide the loading spinner
+      });
+
+      print('Sign Up with:');
+      print('Full Name: $fullName');
+      print('Email: $email');
+      print('Mobile: $mobile');
+      print('NIC: $nic');
+      print('Password: $password');
+    } else {
+      print('Validation failed');
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -118,9 +136,10 @@ class SignUpPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // Sign Up Button
+                // Sign Up Button with loading state
                 CustomButton(
                   text: 'Sign Up',
+                  isLoading: isLoading, // Pass loading state to button
                   onPressed: handleSignUp,
                 ),
                 const SizedBox(height: 16),

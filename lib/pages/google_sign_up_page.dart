@@ -7,37 +7,54 @@ import '../widgets/navigation_link.dart';
 import '../utils/validators.dart';
 import 'sign_in_page.dart';
 
-class GoogleSignUpPage extends StatelessWidget {
+class GoogleSignUpPage extends StatefulWidget {
   const GoogleSignUpPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  _GoogleSignUpPageState createState() => _GoogleSignUpPageState();
+}
 
-    // Controllers for the input fields
-    final TextEditingController mobileController = TextEditingController();
-    final TextEditingController nicController = TextEditingController();
+class _GoogleSignUpPageState extends State<GoogleSignUpPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-    // Handle sign up logic
-    void handleSignUp() {
-      if (_formKey.currentState!.validate()) {
-        final mobile = mobileController.text.trim();
-        final nic = nicController.text.trim();
+  // Controllers for the input fields
+  final TextEditingController mobileController = TextEditingController();
+  final TextEditingController nicController = TextEditingController();
 
-        print('Google Sign Up with:');
-        print('Mobile: $mobile');
-        print('NIC: $nic');
-      } else {
-        print('Validation failed');
-      }
+  bool isLoading = false; // State for the button loader
+
+  // Handle sign up logic
+  Future<void> handleSignUp() async {
+    if (_formKey.currentState!.validate()) {
+      final mobile = mobileController.text.trim();
+      final nic = nicController.text.trim();
+
+      setState(() {
+        isLoading = true; // Show loading spinner on the button
+      });
+
+      // Simulate API call or async operation
+      await Future.delayed(const Duration(seconds: 2));
+
+      setState(() {
+        isLoading = false; // Hide loading spinner after the operation
+      });
+
+      print('Google Sign Up with:');
+      print('Mobile: $mobile');
+      print('NIC: $nic');
+    } else {
+      print('Validation failed');
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 20, vertical: 60), // Add padding
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
           child: Form(
             key: _formKey,
             child: Column(
@@ -52,8 +69,7 @@ class GoogleSignUpPage extends StatelessWidget {
                 CustomInput(
                   hintText: 'Mobile Number',
                   controller: mobileController,
-                  validator: Validators
-                      .validateMobile, // Use validator from Validators class
+                  validator: Validators.validateMobile,
                 ),
                 const SizedBox(height: 8),
 
@@ -61,14 +77,14 @@ class GoogleSignUpPage extends StatelessWidget {
                 CustomInput(
                   hintText: 'NIC',
                   controller: nicController,
-                  validator: Validators
-                      .validateNIC, // Use validator from Validators class
+                  validator: Validators.validateNIC,
                 ),
                 const SizedBox(height: 16),
 
-                // Sign Up Button
+                // Sign Up Button with loading state
                 CustomButton(
                   text: 'Sign Up',
+                  isLoading: isLoading, // Pass loading state to the button
                   onPressed: handleSignUp,
                 ),
                 const SizedBox(height: 16),

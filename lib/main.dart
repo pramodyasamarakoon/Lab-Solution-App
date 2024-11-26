@@ -1,3 +1,4 @@
+import 'package:first_flutter_app/pages/MLT_home_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/sign_in_page.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const SignInPage(),
+      home: const MLTHomePage(),
     );
   }
 }

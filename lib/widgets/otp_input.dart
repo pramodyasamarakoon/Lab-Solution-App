@@ -38,26 +38,21 @@ class OTPInput extends StatelessWidget {
         ],
         onChanged: (value) {
           if (value.isNotEmpty) {
+            // If user types a value, move focus to the next field
             if (nextFocusNode != null) {
-              FocusScope.of(context)
-                  .requestFocus(nextFocusNode); // Move to the next field
+              FocusScope.of(context).requestFocus(nextFocusNode);
+            }
+          } else if (value.isEmpty) {
+            // If the field is cleared (backspace), move focus to the previous field
+            if (previousFocusNode != null) {
+              FocusScope.of(context).requestFocus(previousFocusNode);
             }
           }
         },
-        onFieldSubmitted: (_) {
-          if (nextFocusNode != null) {
-            FocusScope.of(context).requestFocus(nextFocusNode);
-          }
+        onTap: () {
+          // Focus this field when tapped
+          FocusScope.of(context).requestFocus(focusNode);
         },
-        // onKey: (event) {
-        //   if (event.logicalKey == LogicalKeyboardKey.backspace &&
-        //       controller.text.isEmpty) {
-        //     // Move focus to the previous field on backspace if current field is empty
-        //     if (previousFocusNode != null) {
-        //       FocusScope.of(context).requestFocus(previousFocusNode);
-        //     }
-        //   }
-        // },
       ),
     );
   }
