@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async'; // Import for Timer
-import '../widgets/app_logo.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/otp_input.dart';
-import '../widgets/navigation_link.dart';
+import '../../widgets/app_logo.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/otp_input.dart';
+import '../../widgets/navigation_link.dart';
 import 'reset_password_page.dart';
 
 class ForgotPasswordOTPPage extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/patient.dart'; // Import the Patient model
+import '../../models/patient.dart'; // Import the Patient model
 
 class ChatScreen extends StatefulWidget {
   final Patient patient; // Passing the patient data to the chat screen

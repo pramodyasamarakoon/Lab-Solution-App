@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../widgets/app_logo.dart';
-import '../widgets/app_title.dart';
-import '../widgets/custom_input.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/navigation_link.dart';
-import '../utils/validators.dart';
+import '../../widgets/app_logo.dart';
+import '../../widgets/app_title.dart';
+import '../../widgets/custom_input.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/navigation_link.dart';
+import '../../utils/validators.dart';
 import 'sign_up_page.dart';
-import 'mlt_sign_in_page.dart';
-import 'forgot_password_page.dart';
-import 'MLT_home_page.dart';
+import '../Login Pages/mlt_sign_in_page.dart';
+import '../Login Pages/forgot_password_page.dart';
+import '../MLT Landing Pages/MLT_home_page.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});

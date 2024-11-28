@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../widgets/app_logo.dart';
-import '../widgets/custom_input.dart';
-import '../widgets/custom_button.dart';
-import '../utils/validators.dart';
-import 'sign_in_page.dart';
+import '../../widgets/app_logo.dart';
+import '../../widgets/custom_input.dart';
+import '../../widgets/custom_button.dart';
+import '../../utils/validators.dart';
+import '../Login Pages/sign_in_page.dart';
 import 'forgot_password_otp_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {

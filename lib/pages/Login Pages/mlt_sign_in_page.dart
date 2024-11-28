@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../widgets/app_logo.dart';
-import '../widgets/app_title.dart';
-import '../widgets/custom_input.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/navigation_link.dart';
-import '../utils/validators.dart';
+import '../../widgets/app_logo.dart';
+import '../../widgets/app_title.dart';
+import '../../widgets/custom_input.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/navigation_link.dart';
+import '../../utils/validators.dart';
 import 'forgot_password_page.dart';
 
 class MLTSignInPage extends StatefulWidget {

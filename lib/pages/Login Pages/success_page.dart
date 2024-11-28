@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/custom_button.dart'; // Import the custom button
-import 'sign_in_page.dart'; // Import the Sign In page
+import '../../widgets/custom_button.dart'; // Import the custom button
+import '../Login Pages/sign_in_page.dart'; // Import the Sign In page
 
 class SuccessPage extends StatelessWidget {
   final String message;

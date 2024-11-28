@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:first_flutter_app/models/patient.dart'; // Import the Patient model
 import 'package:first_flutter_app/services/patient_service.dart'; // Import the PatientService
-import '../widgets/filter_button.dart';
-import '../widgets/chat_item.dart';
-import 'sign_in_page.dart';
+import '../../widgets/filter_button.dart';
+import '../../widgets/chat_item.dart';
+import '../Login Pages/sign_in_page.dart';
 
 class MLTHomePage extends StatefulWidget {
   const MLTHomePage({super.key});

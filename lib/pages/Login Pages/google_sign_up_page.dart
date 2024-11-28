@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../widgets/app_logo.dart';
-import '../widgets/app_title.dart';
-import '../widgets/custom_input.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/navigation_link.dart';
-import '../utils/validators.dart';
-import 'sign_in_page.dart';
+import '../../widgets/app_logo.dart';
+import '../../widgets/app_title.dart';
+import '../../widgets/custom_input.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/navigation_link.dart';
+import '../../utils/validators.dart';
+import '../Login Pages/sign_in_page.dart';
 
 class GoogleSignUpPage extends StatefulWidget {
   const GoogleSignUpPage({super.key});

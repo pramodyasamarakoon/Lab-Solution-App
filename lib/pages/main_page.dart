@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'mlt_home_page.dart'; // Chat Page
-import 'dashboard01_page.dart'; // Dashboard 01 Page
-import 'dashboard02_page.dart'; // Dashboard 02 Page
-import 'account_page.dart'; // Account Page
+import './MLT Landing Pages/MLT_home_page.dart';
+import 'MLT Landing Pages/dashboard01_page.dart'; // Dashboard 01 Page
+import 'MLT Landing Pages/dashboard02_page.dart'; // Dashboard 02 Page
+import 'MLT Landing Pages/account_page.dart'; // Account Page
 import '../widgets/custom_bottom_nav_bar.dart'; // Import the CustomBottomNavBar
 
 class MainPage extends StatefulWidget {

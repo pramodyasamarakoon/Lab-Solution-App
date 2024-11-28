@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/patient.dart';
-import '../pages/chat_page.dart';
+import '../pages/In Chat Pages/chat_page.dart';
 
 class ChatItem extends StatelessWidget {
   final Patient patient;
