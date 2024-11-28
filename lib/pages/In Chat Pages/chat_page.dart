@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Importing for DateFormat
 import '../../models/patient.dart'; // Import the Patient model
 
 class ChatScreen extends StatefulWidget {
@@ -12,28 +13,56 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController _messageController = TextEditingController();
-  List<String> messages = []; // List to hold chat messages
+  ScrollController _scrollController = ScrollController(); // ScrollController for ListView
+  List<Map<String, String>> messages = []; // List to hold chat messages with timestamps
   bool isSending = false; // To track the sending state of the message
 
   @override
   void dispose() {
     _messageController.dispose();
+    _scrollController.dispose(); // Dispose the ScrollController
     super.dispose();
   }
 
   // Function to simulate sending a message
   void sendMessage() {
     if (_messageController.text.isNotEmpty) {
+      String messageText = _messageController.text;
+      String timestamp = _getFormattedTime(); // Get the current time in formatted string
+
       setState(() {
-        messages.add(_messageController.text); // Add the message to the list
+        // Add message with its timestamp
+        messages.add({'message': messageText, 'timestamp': timestamp});
         _messageController.clear(); // Clear the input field
       });
+
+      // Scroll to the bottom after sending a message
+      _scrollToBottom();
     }
+  }
+
+  // Function to scroll to the bottom of the ListView
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  // Function to format the current time
+  String _getFormattedTime() {
+    final now = DateTime.now();
+    final formatter = DateFormat('hh:mm a'); // Format as "hh:mm AM/PM"
+    return formatter.format(now);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true, // Ensure the keyboard doesn't push the input field offscreen
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
@@ -86,28 +115,39 @@ class _ChatScreenState extends State<ChatScreen> {
           // Display the chat messages in a ListView
           Expanded(
             child: ListView.builder(
-              reverse: true, // To show the latest messages at the bottom
+              controller: _scrollController, // Attach the controller to ListView
+              reverse: false, // Ensure messages are added from the bottom
               itemCount: messages.length,
               itemBuilder: (context, index) {
-                bool isSender =
-                    index % 2 == 0; // Alternate between sender and receiver
+                final message = messages[index]['message'] ?? '';
+                final timestamp = messages[index]['timestamp'] ?? '';
+
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 15.0),
                   child: Align(
-                    alignment:
-                        isSender ? Alignment.centerRight : Alignment.centerLeft,
+                    alignment: Alignment.centerRight, // Align all messages to the Right
                     child: Container(
                       decoration: BoxDecoration(
-                        color: isSender ? Colors.blue[200] : Colors.grey[300],
-                        borderRadius: BorderRadius.circular(15),
+                        color: Color(0xFFDCF8C6), // WhatsApp sending message color
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 15),
-                      child: Text(
-                        messages[index],
-                        style: TextStyle(
-                            color: isSender ? Colors.white : Colors.black),
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            message,
+                            style: TextStyle(color: Colors.black), // Text color for the message
+                          ),
+                          const SizedBox(height: 5), // Space between message and timestamp
+                          Text(
+                            timestamp,
+                            style: TextStyle(
+                              color: Colors.grey[600], // Timestamp color
+                              fontSize: 12, // Smaller text for the timestamp
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -130,18 +170,15 @@ class _ChatScreenState extends State<ChatScreen> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey, 
+                      color: Colors.grey[200], // Light grey background
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: TextField(
                       controller: _messageController,
                       decoration: const InputDecoration(
                         hintText: 'Type a message...',
-                        border:
-                            InputBorder.none, // No border for the text field
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 10), // Padding inside the input field
+                        border: InputBorder.none, // No border for the text field
+                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10), // Padding inside the input field
                       ),
                     ),
                   ),
