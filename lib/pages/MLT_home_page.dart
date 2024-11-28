@@ -1,10 +1,9 @@
-// lib/pages/mlt_home_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:first_flutter_app/models/patient.dart'; // Import the Patient model
 import 'package:first_flutter_app/services/patient_service.dart'; // Import the PatientService
 import '../widgets/filter_button.dart';
 import '../widgets/chat_item.dart';
+import 'sign_in_page.dart';
 
 class MLTHomePage extends StatefulWidget {
   const MLTHomePage({super.key});
@@ -15,26 +14,47 @@ class MLTHomePage extends StatefulWidget {
 
 class _MLTHomePageState extends State<MLTHomePage> {
   String activeButton = 'All'; // Default active button
-  List<Patient> patientList = []; // To hold the list of patients
+  List<Patient> patientList = []; // To hold the full list of patients
+  List<Patient> filteredPatientList = []; // To hold the filtered patient list
+  bool isLoading = false; // To track the loading state
 
   @override
   void initState() {
     super.initState();
-    print("Calling loadPatientData...");
     loadPatientData();
   }
 
   Future<void> loadPatientData() async {
-    print('Loading patient data...');
+    setState(() {
+      isLoading = true; // Start loading
+    });
     List<Patient> patients = await PatientService.loadPatients();
     setState(() {
       patientList = patients;
+      activeButton = 'All'; // Reset active button to 'All'
+      filteredPatientList = patients; // Reset to show all patients
+      isLoading = false; // Stop loading
     });
   }
 
+  // Filter the patient list based on the selected status
   void _onFilterButtonPressed(String buttonText) {
     setState(() {
       activeButton = buttonText; // Update active button state
+      isLoading = true; // Start loading while filtering
+
+      if (buttonText == 'All') {
+        filteredPatientList = patientList; // Show all patients
+      } else {
+        // Filter by status while safely checking for null
+        filteredPatientList = patientList
+            .where((patient) =>
+                patient.status != null && patient.status == buttonText)
+            .toList(); // Filter by status
+      }
+
+      // Stop the loading after filtering
+      isLoading = false;
     });
   }
 
@@ -58,7 +78,10 @@ class _MLTHomePageState extends State<MLTHomePage> {
           IconButton(
             icon: const Icon(Icons.more_vert, color: Colors.black),
             onPressed: () {
-              print('Three dots tapped');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SignInPage()),
+              );
             },
           ),
         ],
@@ -76,10 +99,8 @@ class _MLTHomePageState extends State<MLTHomePage> {
                 children: [
                   FilterButton(
                     text: 'All',
-                    isActive:
-                        activeButton == 'All', // Set active based on button
-                    onPressed: () =>
-                        _onFilterButtonPressed('All'), // Update active button
+                    isActive: activeButton == 'All',
+                    onPressed: () => _onFilterButtonPressed('All'),
                   ),
                   FilterButton(
                     text: 'Sample to be collected',
@@ -88,38 +109,41 @@ class _MLTHomePageState extends State<MLTHomePage> {
                         _onFilterButtonPressed('Sample to be collected'),
                   ),
                   FilterButton(
-                    text: 'Sample Collected',
-                    isActive: activeButton == 'Sample Collected',
-                    onPressed: () => _onFilterButtonPressed('Sample Collected'),
+                    text: 'Results to be entered',
+                    isActive: activeButton == 'Results to be entered',
+                    onPressed: () =>
+                        _onFilterButtonPressed('Results to be entered'),
                   ),
                   FilterButton(
-                    text: 'Sample Collected Done',
-                    isActive: activeButton == 'Sample Collected Done',
-                    onPressed: () =>
-                        _onFilterButtonPressed('Sample Collected Done'),
+                    text: 'Results Entered',
+                    isActive: activeButton == 'Results Entered',
+                    onPressed: () => _onFilterButtonPressed('Results Entered'),
                   ),
                 ],
               ),
             ),
           ),
           // Patient List
-          // Patient list (chat list) under filter buttons
           Expanded(
             child: RefreshIndicator(
-              onRefresh: loadPatientData, // Trigger refresh on pull down
-              child: patientList.isEmpty
+              onRefresh: loadPatientData,
+              child: isLoading // Show loading indicator when filtering
                   ? const Center(
-                      child:
-                          CircularProgressIndicator()) // Show loading indicator
-                  : ListView.builder(
-                      itemCount: patientList.length,
-                      itemBuilder: (context, index) {
-                        Patient patient = patientList[index];
-                        return ChatItem(patient: patient);
-                      },
-                    ),
+                      child: CircularProgressIndicator(),
+                    )
+                  : filteredPatientList.isEmpty
+                      ? const Center(
+                          child: Text('No patients found for this status'),
+                        )
+                      : ListView.builder(
+                          itemCount: filteredPatientList.length,
+                          itemBuilder: (context, index) {
+                            Patient patient = filteredPatientList[index];
+                            return ChatItem(patient: patient);
+                          },
+                        ),
             ),
-          )
+          ),
         ],
       ),
     );

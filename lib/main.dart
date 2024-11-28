@@ -1,6 +1,7 @@
 import 'package:first_flutter_app/pages/MLT_home_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/sign_in_page.dart';
+import 'pages/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Sign In App',
+      title: 'eLab Connect App',
       theme: ThemeData(
         primaryColor: const Color(0xFF25D366), // WhatsApp green color
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MLTHomePage(),
+      home: const MainPage(),
     );
   }
 }

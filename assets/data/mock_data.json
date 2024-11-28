@@ -1,18 +1,21 @@
-[{
-  "name": "Sophia Walker",
-  "age": 29,
-  "gender": "Female",
-  "time": "8:00 PM",
-  "labTests": 3,
-  "image": "assets/images/patient2.jpg"
-},
+[
+  {
+    "name": "Sophia Walker",
+    "age": 29,
+    "gender": "Female",
+    "time": "8:00 PM",
+    "labTests": 3,
+    "image": "assets/images/patient2.jpg",
+    "status": "Sample to be collected"
+  },
   {
     "name": "John Doe",
     "age": 32,
     "gender": "Male",
     "time": "10:30 AM",
     "labTests": 3,
-    "image": "assets/images/patient1.jpg"
+    "image": "assets/images/patient1.jpg",
+    "status": "Results to be entered"
   },
   {
     "name": "Jane Smith",
@@ -20,7 +23,8 @@
     "gender": "Female",
     "time": "11:00 AM",
     "labTests": 1,
-    "image": "assets/images/patient2.jpg"
+    "image": "assets/images/patient2.jpg",
+    "status": "Results Entered"
   },
   {
     "name": "Samuel Lee",
@@ -28,7 +32,8 @@
     "gender": "Male",
     "time": "11:30 AM",
     "labTests": 2,
-    "image": "assets/images/patient3.jpg"
+    "image": "assets/images/patient3.jpg",
+    "status": "Results to be entered"
   },
   {
     "name": "Emily White",
@@ -36,7 +41,8 @@
     "gender": "Female",
     "time": "12:00 PM",
     "labTests": 4,
-    "image": "assets/images/patient1.jpg"
+    "image": "assets/images/patient1.jpg",
+    "status": "Sample to be collected"
   },
   {
     "name": "Michael Brown",
@@ -44,7 +50,8 @@
     "gender": "Male",
     "time": "12:30 PM",
     "labTests": 5,
-    "image": "assets/images/patient2.jpg"
+    "image": "assets/images/patient2.jpg",
+    "status": "Results Entered"
   },
   {
     "name": "Sophia Davis",
@@ -52,7 +59,8 @@
     "gender": "Female",
     "time": "1:00 PM",
     "labTests": 2,
-    "image": "assets/images/patient3.jpg"
+    "image": "assets/images/patient3.jpg",
+    "status": "Sample to be collected"
   },
   {
     "name": "James Wilson",
@@ -60,7 +68,8 @@
     "gender": "Male",
     "time": "1:30 PM",
     "labTests": 3,
-    "image": "assets/images/patient1.jpg"
+    "image": "assets/images/patient1.jpg",
+    "status": "Results to be entered"
   },
   {
     "name": "Olivia Martinez",
@@ -68,7 +77,8 @@
     "gender": "Female",
     "time": "2:00 PM",
     "labTests": 1,
-    "image": "assets/images/patient2.jpg"
+    "image": "assets/images/patient2.jpg",
+    "status": "Results Entered"
   },
   {
     "name": "David Clark",
@@ -76,7 +86,8 @@
     "gender": "Male",
     "time": "2:30 PM",
     "labTests": 6,
-    "image": "assets/images/patient3.jpg"
+    "image": "assets/images/patient3.jpg",
+    "status": "Sample to be collected"
   },
   {
     "name": "Isabella Garcia",
@@ -84,7 +95,8 @@
     "gender": "Female",
     "time": "3:00 PM",
     "labTests": 4,
-    "image": "assets/images/patient1.jpg"
+    "image": "assets/images/patient1.jpg",
+    "status": "Results to be entered"
   },
   {
     "name": "Benjamin Lopez",
@@ -92,7 +104,8 @@
     "gender": "Male",
     "time": "3:30 PM",
     "labTests": 2,
-    "image": "assets/images/patient2.jpg"
+    "image": "assets/images/patient2.jpg",
+    "status": "Sample to be collected"
   },
   {
     "name": "Charlotte Harris",
@@ -100,7 +113,8 @@
     "gender": "Female",
     "time": "4:00 PM",
     "labTests": 3,
-    "image": "assets/images/patient3.jpg"
+    "image": "assets/images/patient3.jpg",
+    "status": "Results Entered"
   },
   {
     "name": "Lucas Young",
@@ -108,7 +122,8 @@
     "gender": "Male",
     "time": "4:30 PM",
     "labTests": 1,
-    "image": "assets/images/patient1.jpg"
+    "image": "assets/images/patient1.jpg",
+    "status": "Results to be entered"
   },
   {
     "name": "Mia Allen",
@@ -116,7 +131,8 @@
     "gender": "Female",
     "time": "5:00 PM",
     "labTests": 3,
-    "image": "assets/images/patient2.jpg"
+    "image": "assets/images/patient2.jpg",
+    "status": "Sample to be collected"
   },
   {
     "name": "Henry Scott",
@@ -124,7 +140,8 @@
     "gender": "Male",
     "time": "5:30 PM",
     "labTests": 2,
-    "image": "assets/images/patient3.jpg"
+    "image": "assets/images/patient3.jpg",
+    "status": "Results to be entered"
   },
   {
     "name": "Amelia King",
@@ -132,7 +149,8 @@
     "gender": "Female",
     "time": "6:00 PM",
     "labTests": 4,
-    "image": "assets/images/patient1.jpg"
+    "image": "assets/images/patient1.jpg",
+    "status": "Results Entered"
   },
   {
     "name": "Ethan Wright",
@@ -140,7 +158,8 @@
     "gender": "Male",
     "time": "6:30 PM",
     "labTests": 5,
-    "image": "assets/images/patient2.jpg"
+    "image": "assets/images/patient2.jpg",
+    "status": "Sample to be collected"
   },
   {
     "name": "Ava Green",
@@ -148,7 +167,8 @@
     "gender": "Female",
     "time": "7:00 PM",
     "labTests": 2,
-    "image": "assets/images/patient3.jpg"
+    "image": "assets/images/patient3.jpg",
+    "status": "Results to be entered"
   },
   {
     "name": "William Lewis",
@@ -156,7 +176,7 @@
     "gender": "Male",
     "time": "7:30 PM",
     "labTests": 6,
-    "image": "assets/images/patient1.jpg"
+    "image": "assets/images/patient1.jpg",
+    "status": "Results Entered"
   }
-  
 ]

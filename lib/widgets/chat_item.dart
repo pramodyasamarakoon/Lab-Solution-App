@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/patient.dart';
+import '../pages/chat_page.dart';
 
 class ChatItem extends StatelessWidget {
   final Patient patient;
@@ -23,24 +24,43 @@ class ChatItem extends StatelessWidget {
           '${patient.age} years, ${patient.gender}',
           style: const TextStyle(fontSize: 14, color: Colors.grey),
         ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              patient.time,
-              style: const TextStyle(fontSize: 12, color: Colors.green),
-            ),
-            const SizedBox(height: 4),
-            CircleAvatar(
-              backgroundColor: Colors.green,
-              radius: 14,
-              child: Text(
-                patient.labTests.toString(),
-                style: const TextStyle(color: Colors.white, fontSize: 12),
+        trailing: Container(
+          width: 100, // Fixed width to prevent trailing elements from shifting
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.end, // Align everything to the right
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                patient.time,
+                style: const TextStyle(fontSize: 12, color: Colors.green),
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              // Only show the lab test count if the status is not 'Results Entered'
+              patient.status == 'Results Entered'
+                  ? const SizedBox(
+                      height: 12) // Empty space to maintain position
+                  : CircleAvatar(
+                      backgroundColor: Colors.green,
+                      radius: 12,
+                      child: Text(
+                        patient.labTests.toString(),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 10),
+                      ),
+                    ),
+            ],
+          ),
         ),
+        onTap: () {
+          // Navigate to the chat screen with the patient data
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatScreen(patient: patient),
+            ),
+          );
+        },
       ),
     );
   }
