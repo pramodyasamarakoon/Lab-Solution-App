@@ -4,6 +4,8 @@ import 'package:first_flutter_app/services/patient_service.dart'; // Import the 
 import '../../widgets/filter_button.dart';
 import '../../widgets/chat_item.dart';
 import '../Login Pages/sign_in_page.dart';
+import '../MLT Landing Pages/patient_registration.dart'; // Import the patient registration screen
+import '../../widgets/floating_action_button.dart'; // Import the custom FAB widget
 
 class MLTHomePage extends StatefulWidget {
   const MLTHomePage({super.key});
@@ -145,6 +147,10 @@ class _MLTHomePageState extends State<MLTHomePage> {
             ),
           ),
         ],
+      ),
+      // Use the custom FAB widget and pass the target screen (PatientRegistrationPage) to it
+      floatingActionButton: CustomFloatingActionButton(
+        targetScreen: const PatientRegistrationPage(), // Pass the screen here
       ),
     );
   }

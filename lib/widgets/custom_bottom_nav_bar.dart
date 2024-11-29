@@ -20,14 +20,14 @@ class CustomBottomNavBar extends StatelessWidget {
       selectedItemColor: AppColors.primaryColor, // Active tab color
       unselectedItemColor: Colors.black, // Inactive tab color
       backgroundColor: Colors.white, // Background color of the navigation bar
-      iconSize: 30.0, // Adjust icon size for vertical padding effect
+      iconSize: 20.0,
       selectedLabelStyle: TextStyle(
-        fontSize: 12, // Adjust text size for label
-        height: 1.5, // Adjust vertical padding for label text
+        fontSize: 12,
+        height: 1.5,
       ),
       unselectedLabelStyle: TextStyle(
-        fontSize: 12, // Adjust text size for label
-        height: 1.5, // Adjust vertical padding for label text
+        fontSize: 12,
+        height: 1.5,
       ),
       items: const [
         BottomNavigationBarItem(
