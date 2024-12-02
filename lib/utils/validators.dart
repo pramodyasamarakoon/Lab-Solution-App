@@ -32,7 +32,13 @@ class Validators {
     if (value == null || value.isEmpty) {
       return 'NIC is required.';
     }
-    // Add more specific NIC validation logic if necessary
+
+    // Check for the NIC format (9 digits + V/v at the end OR 12 digits)
+    final regex = RegExp(r'^\d{9}[Vv]$|^\d{12}$');
+    if (!regex.hasMatch(value)) {
+      return 'Enter a valid NIC (e.g., 123456789V, 123456789v or 123456789012).';
+    }
+
     return null;
   }
 

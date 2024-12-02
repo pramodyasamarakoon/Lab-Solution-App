@@ -1,19 +1,9 @@
 import 'package:flutter/material.dart';
-
-// Model for Patient
-class PatientData {
-  String name;
-  int age;
-  String gender;
-  String status;
-
-  PatientData({
-    required this.name,
-    required this.age,
-    required this.gender,
-    required this.status,
-  });
-}
+import '../../services/patient_list_service.dart';
+import '../../models/patient_list_model.dart';
+import '../../widgets/custom_input.dart';
+import '../../widgets/custom_button.dart';
+import '../../utils/validators.dart';
 
 class PatientRegistrationPage extends StatefulWidget {
   const PatientRegistrationPage({super.key});
@@ -24,127 +14,108 @@ class PatientRegistrationPage extends StatefulWidget {
 }
 
 class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
-  final _formKey = GlobalKey<FormState>(); // Key to validate form
+  final _formKey = GlobalKey<FormState>(); // For form validation
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-  String _selectedGender = 'Male';
-  String _selectedStatus = 'Sample to be collected';
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
+  final TextEditingController _nicController = TextEditingController();
+  bool _isLoading = false;
 
-  // Function to handle form submission
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      // Create a new Patient object with the provided information
-      final patient = PatientData(
-        name: _nameController.text,
-        age: int.parse(_ageController.text),
-        gender: _selectedGender,
-        status: _selectedStatus,
-      );
+ void _submitForm() async {
+  if (_formKey.currentState!.validate()) {
+    setState(() {
+      _isLoading = true; // Show loading indicator
+    });
 
-      // Simulate saving the patient to a list or database (just printing here)
-      print('Patient Registered: ${patient.name}, ${patient.age}, ${patient.gender}, ${patient.status}');
-      
-      // Show success message and go back
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Patient successfully registered')),
-      );
+    // Collect the patient data into a Patient object
+    PatientList newPatient = PatientList(
+      id: '', // Initially empty, will be generated
+      fullName: _nameController.text,
+      email: _emailController.text,
+      mobile: _mobileController.text,
+      nic: _nicController.text,
+      password: '', // Initially empty, will be generated
+    );
 
-      // Optionally, navigate back to the previous screen
-      Navigator.pop(context);
-    }
+    // Calculate birthday, gender, and age
+    DateTime birthday = PatientListService.calculateBirthday(newPatient.nic);
+    String gender = PatientListService.calculateGender(newPatient.nic);
+    int age = PatientListService.calculateAge(birthday);
+
+    // Log or display calculated details (optional)
+    print('Patient Birthday: $birthday');
+    print('Patient Gender: $gender');
+    print('Patient Age: $age');
+
+    // Save the patient data using the service (with generated password and ID)
+    await PatientListService.savePatientWithGeneratedPassword(newPatient);
+
+    setState(() {
+      _isLoading = false; // Hide loading indicator
+    });
+
+    // Show a success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Patient successfully registered!')),
+    );
+
+    // Navigate back to the previous screen (or home screen)
+    Navigator.pop(context);
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Patient Registration'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              // Name Field
-              TextFormField(
+              // Full Name Input
+              CustomInput(
+                hintText: 'Enter Full Name',
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Patient Name',
-                  hintText: 'Enter patient\'s name',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the name';
-                  }
-                  return null;
-                },
+                validator: Validators.validateFullName,
               ),
               const SizedBox(height: 16),
 
-              // Age Field
-              TextFormField(
-                controller: _ageController,
-                decoration: const InputDecoration(
-                  labelText: 'Age',
-                  hintText: 'Enter patient\'s age',
-                ),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the age';
-                  }
-                  if (int.tryParse(value) == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
+              // Email Input
+              CustomInput(
+                hintText: 'Enter Email Address',
+                controller: _emailController,
+                validator: Validators.validateEmail,
               ),
               const SizedBox(height: 16),
 
-              // Gender Selection
-              DropdownButtonFormField<String>(
-                value: _selectedGender,
-                decoration: const InputDecoration(labelText: 'Gender'),
-                items: ['Male', 'Female', 'Other']
-                    .map((gender) => DropdownMenuItem<String>(
-                          value: gender,
-                          child: Text(gender),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedGender = value!;
-                  });
-                },
+              // Mobile Number Input
+              CustomInput(
+                hintText: 'Enter Mobile Number',
+                controller: _mobileController,
+                validator: Validators.validateMobile,
               ),
               const SizedBox(height: 16),
 
-              // Status Selection
-              DropdownButtonFormField<String>(
-                value: _selectedStatus,
-                decoration: const InputDecoration(labelText: 'Status'),
-                items: [
-                  'Sample to be collected',
-                  'Results to be entered',
-                  'Results Entered'
-                ]
-                    .map((status) => DropdownMenuItem<String>(
-                          value: status,
-                          child: Text(status),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedStatus = value!;
-                  });
-                },
+              // NIC Input
+              CustomInput(
+                hintText: 'Enter NIC',
+                controller: _nicController,
+                validator: Validators.validateNIC,
               ),
               const SizedBox(height: 32),
 
-              // Submit Button
-              
+              // Register Button
+              CustomButton(
+                text: 'Register Patient',
+                isLoading: _isLoading,
+                onPressed: _submitForm,
+              ),
             ],
           ),
         ),
