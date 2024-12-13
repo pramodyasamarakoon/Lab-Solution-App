@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/patient.dart';
-import '../pages/In Chat Pages/chat_page.dart';
+// import '../pages/In Chat Pages/chat_page.dart';
+import '../pages/In Chat Pages/inchat_landing_page.dart';
 
 class ChatItem extends StatelessWidget {
   final Patient patient;
@@ -57,7 +58,7 @@ class ChatItem extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatScreen(patient: patient),
+              builder: (context) => InChatLanding(patient: patient),
             ),
           );
         },

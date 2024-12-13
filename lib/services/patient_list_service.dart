@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import '../models/patient_list_model.dart';
 import '../models/patient_list_response.dart';
@@ -142,6 +143,11 @@ class PatientListService {
       dayOfYear -= 500;
     }
 
+    final unformattedBirthDay =
+        DateTime(year).add(Duration(days: dayOfYear - 1));
+
+    final formatter = DateFormat('yyyy:mm:dd');
+    // return formatter.format(unformattedBirthDay);
     return DateTime(year).add(Duration(days: dayOfYear - 1));
   }
 
